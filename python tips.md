@@ -47,3 +47,14 @@
     a = [(5, 13721), (4, 13356), (6, 12216), (7, 10464), (3, 10407), (8, 7865), (9, 5780), (2, 4927), (10, 4018)]
 
     print(sorted(a, key=itemgetter(0), reverse=True))
+
+
+- Counter -- count stuff.
+
+
+    from collections import Counter
+
+    arr = [(5, 13721), (4, 13356), (6, 12216), (4, 10464), (3, 10407), (4, 7865), (9, 5780), (5, 4927)]
+
+    c = Counter([i for (i, j) in arr])
+    print(c)
