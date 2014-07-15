@@ -24,3 +24,16 @@
 - Performance timing
 
 ``from time import perf_counter``
+
+
+- Namedtuple -- or create structs fast!
+
+
+    from collections import namedtuple
+
+    Jumps = namedtuple("Jumps", ["poz", "len"])
+
+    aa = Jumps(len=66, poz=12)
+    # aa = Jumps(6, 12)
+
+    print(aa.poz, aa.len, aa)

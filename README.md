@@ -2,7 +2,7 @@
 
 ## Derp stuff.
 
-## funny stuff.
+## Funny stuff.
 
 ## Pieces of code.
 
