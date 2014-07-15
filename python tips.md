@@ -19,3 +19,8 @@
 - Show all methods
 
 ``dir(function)``
+
+
+- Performance timing
+
+``from time import perf_counter``
