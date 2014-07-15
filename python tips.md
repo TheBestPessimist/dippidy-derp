@@ -37,3 +37,13 @@
     # aa = Jumps(6, 12)
 
     print(aa.poz, aa.len, aa)
+
+
+- Itemgetter -- or access struct members fast!
+
+
+    from operator import itemgetter
+
+    a = [(5, 13721), (4, 13356), (6, 12216), (7, 10464), (3, 10407), (8, 7865), (9, 5780), (2, 4927), (10, 4018)]
+
+    print(sorted(a, key=itemgetter(0), reverse=True))
