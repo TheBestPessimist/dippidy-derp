@@ -65,13 +65,11 @@ print(c.most_common(3))
 ```
 
 
-<hr/>
 ## Python books
 
 - http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks
 
 
-<hr/>
 ## Python derp
 
 ```import this```
