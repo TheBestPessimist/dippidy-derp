@@ -1,1 +1,0 @@
-- http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks
