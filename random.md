@@ -12,3 +12,12 @@ robocopy [src] [dest] /MIR /Z  /R:0 /W:5 /MT /XJ /LOG:a.txt
 /XJ : eXclude Junction points. (normally included by default). (exclude symlinks?)
 
 ````
+
+
+- #### Find the current proxy settings of a browser
+
+````
+- [http://wpad/wpad.dat](http://wpad/wpad.dat)
+- [http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings](http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings)
+- [http://en.wikipedia.org/wiki/Web_Proxy_Autodiscovery_Protocol](http://en.wikipedia.org/wiki/Web_Proxy_Autodiscovery_Protocol)
+````
