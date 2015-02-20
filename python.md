@@ -76,7 +76,7 @@ urllib.request.urlretrieve(the_url, filename=the_save_path)
 
 ## Python books
 
-    - [http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks](http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks)
+- [http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks](http://www.quora.com/Python-programming-language-1/What-are-some-cool-Python-tricks)
 
 
 ## Python derp
