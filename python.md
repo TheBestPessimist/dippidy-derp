@@ -1,34 +1,34 @@
 ## Python tips
 
-- #### Get current user path
+#### Get current user path
 
 ```os.environ('USERPATH')```
 
 
 
-- #### Thread sleep
+#### Thread sleep
 
 ```time.sleep(5)```
 
 
 
-- #### Create http server in current folder from cmd. Default port: 8000. Python 3.
+#### Create http server in current folder from cmd. Default port: 8000. Python 3.
 
 ```python -m http.server ```
 
 
 
-- #### Show all methods
+#### Show all methods
 
 ```dir(function)```
 
 
-- #### Performance timing
+#### Performance timing
 
 ```from time import perf_counter```
 
 
-- #### Namedtuple -- or create structs fast!
+#### Namedtuple -- or create structs fast!
 
 ```
 from collections import namedtuple
@@ -42,7 +42,7 @@ print(aa.poz, aa.len, aa)
 ```
 
 
-- #### Itemgetter -- or access struct members fast!
+#### Itemgetter -- or access struct members fast!
 
 ```
 from operator import itemgetter
@@ -53,7 +53,7 @@ print(sorted(a, key=itemgetter(0), reverse=True))
 ```
 
 
-- #### Counter -- count stuff.
+#### Counter -- count stuff.
 
 ```
 from collections import Counter
@@ -65,7 +65,7 @@ print(c.most_common(3))
 ```
 
 
-- #### Download a file
+#### Download a file
 
 ```
 import urllib.request
