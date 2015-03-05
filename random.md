@@ -1,4 +1,4 @@
-- #### Mirror folder trees with robocopy
+## Mirror folder trees with robocopy
 
 ````
 robocopy [src] [dest] /MIR /Z  /R:0 /W:5 /MT /XJ /LOG:a.txt
@@ -14,7 +14,7 @@ robocopy [src] [dest] /MIR /Z  /R:0 /W:5 /MT /XJ /LOG:a.txt
 ````
 
 
-- #### Find the current proxy settings of a browser
+## Find the current proxy settings of a browser
 
     - [http://wpad/wpad.dat](http://wpad/wpad.dat)
     - [http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings](http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings)
