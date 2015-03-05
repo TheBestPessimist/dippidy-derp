@@ -19,3 +19,12 @@ robocopy [src] [dest] /MIR /Z  /R:0 /W:5 /MT /XJ /LOG:a.txt
 - [http://wpad/wpad.dat](http://wpad/wpad.dat)
 - [http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings](http://superuser.com/questions/33588/how-to-view-internet-explorer-auto-detected-proxy-settings)
 - [http://en.wikipedia.org/wiki/Web_Proxy_Autodiscovery_Protocol](http://en.wikipedia.org/wiki/Web_Proxy_Autodiscovery_Protocol)
+
+
+## Get the link to the latest version of a file on Bitbucket
+
+- for a git repo use `master` instead of the sha1 of that file
+	- random commit: [https://bitbucket.org/thebestpessimist/dippidy-derp/src/67da08316b7bc35afc787808b8770ce65c4ca4f8/random.md?at=master](https://bitbucket.org/thebestpessimist/dippidy-derp/src/67da08316b7bc35afc787808b8770ce65c4ca4f8/random.md?at=master)
+	- master commit: [https://bitbucket.org/thebestpessimist/dippidy-derp/src/master/random.md](https://bitbucket.org/thebestpessimist/dippidy-derp/src/master/random.md)
+	
+- for a mecurial repo use `tip` instead of the id of that file.
