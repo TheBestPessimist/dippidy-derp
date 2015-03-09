@@ -9,7 +9,7 @@
 | `F3` |Open the declaration of the selected class, member, method, etc. | `F12`| I think it doesn't work for members |
 | `F2` | Show the documentation of the selected item | ? |  |
 | `alt+up/down` | Move the current line above or below | `ctrl+shift+up/down` |  |
-| `ctrl+(shift+)F6` | Go to next(previous) editor (editor = tab with code) | `ctrl+(shift+)tab | May not be this one |
+| `ctrl+(shift+)F6` | Go to next(previous) editor (editor = tab with code) | `ctrl+(shift+)tab` | May not be this one |
 | `ctrl+enter` | Insert newline and break the current one at cursor position |  | Same functionality as simply pressing `enter` |
 | `shift+enter` | Insert newline but don't break the current line |  | Same functionality as going to the end of the line, then pressing `enter` |
 | `ctrl+shift+enter` | Insert newline above the current line |  |  |
