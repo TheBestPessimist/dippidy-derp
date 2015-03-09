@@ -44,3 +44,15 @@ Note that most of this shortcuts do not apply to fullscreen applications!
 |  |  |  |
 |  |  |  |
 
+
+## Other shortcuts
+
+Note that most of this shortcuts do not apply to fullscreen applications!
+
+| Shortcut | Description | Notes |
+|:-------------:|:-------------:|:-------------------------:|
+| `ctrl+click` on a link | Open a new tab in browsers |  |
+| `middle click` on a link | Open a new tab in browsers |  |
+| `/` | Go to the default search box on a website | Only some websites support this  |
+|  |  |  |
+|  |  |  |
