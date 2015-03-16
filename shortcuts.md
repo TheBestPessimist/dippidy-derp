@@ -12,6 +12,7 @@
 | `ctrl+enter` | Insert newline and break the current one at cursor position |  | Same functionality as simply pressing `enter` |
 | `shift+enter` | Insert newline but don't break the current line |  | Same functionality as going to the end of the line, then pressing `enter` |
 | `ctrl+shift+enter` | Insert newline above the current line |  |  |
+| `F4` | Show class hierarchy |  |  |
 
 
 ## Windows shortcuts
