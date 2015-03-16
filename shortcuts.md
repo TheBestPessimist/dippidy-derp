@@ -52,30 +52,30 @@ Note that most of this shortcuts do not apply to fullscreen applications!
 
 | Command | Description |
 |:-------:|:-----------:|
-| action | Sends the specifed action to the active channel or query window |
-| away |  Set an away message, or use no message to return from being away |
-| clear | clear the conversation scrollback |
-| clearall | clear all the conversation scrollbacks |
-| ctcp | [nickname][ping/finger/version/time/userinfo/clientinfo] Does the given ctcp request on nickname |
-| help | help [cmd] |
-| invite | invite someone to join a channel or this channel |
-| j | join multiple channels |
-| join | join multiple channels |
-| kick | kick someone |
-| list | list all channels |
-| msg | send a msg |
-| names | list the users in a channel |
-| nick | change my nickname |
-| op | give op status to [user] |
-| part | leave current channel with a message |
-| ping | test ping |
-| query | send private message to user, not to channel |
-| quit | leave current server with message |
-| quote | send a raw command to a the server |
-| remove | remove someone from a room |
-| say | normal speaking |
-| time | show server time |
-| topic | set the channel topic |
-| umode | set/unset user mode |
-| whois | get info about a user |
-| whowas | who was a loggedoff user |
+| `action` | Sends the specifed action to the active channel or query window |
+| `away` |  Set an away message, or use no message to return from being away |
+| `clear` | clear the conversation scrollback |
+| `clearall` | clear all the conversation scrollbacks |
+| `ctcp` | [nickname][ping/finger/version/time/userinfo/clientinfo] Does the given ctcp request on nickname |
+| `help` | help [cmd] |
+| `invite` | invite someone to join a channel or this channel |
+| `j` | join multiple channels |
+| `join` | join multiple channels |
+| `kick` | kick someone |
+| `list` | list all channels |
+| `msg` | send a msg |
+| `names` | list the users in a channel |
+| `nick` | change my nickname |
+| `op` | give op status to [user] |
+| `part` | leave current channel with a message |
+| `ping` | test ping |
+| `query` | send private message to user, not to channel |
+| `quit` | leave current server with message |
+| `quote` | send a raw command to a the server |
+| `remove` | remove someone from a room |
+| `say` | normal speaking |
+| `time` | show server time |
+| `topic` | set the channel topic |
+| `umode` | set/unset user mode |
+| `whois` | get info about a user |
+| `whowas` | who was a loggedoff user |
