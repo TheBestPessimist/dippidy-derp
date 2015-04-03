@@ -1,18 +1,20 @@
 ## Eclipse shortcuts
 
-| Shortcut      | Description   | SublimeText equivalent    | Notes (with respect to SublimeText) |
+| Shortcut      | Description   | SublimeText equivalent    | Notes |
 |:-------------:|:-------------:|:-------------------------:|:------:|
-|`ctrl+shift+t`| Search for properties (classes, members, methods) in all classes | `ctrl+shift+r` | I think this is the closest
+|`ctrl+shift+t`| Search for properties (classes, members, methods) in all classes | `ctrl+shift+r` | **ST:** I think this is the closest |
 |`ctrl+shift+r`| Search for resources (all the file names, no matter their type), but not their contents| `ctrl+p`| |
 | `ctrl+o`| Find methods and variables in this class | `ctrl+r` | |
-| `F3` |Open the declaration of the selected class, member, method, etc. | `F12`| I think it doesn't work for members |
+| `F3` |Open the declaration of the selected class, member, method, etc. | `F12`| **ST:** I think it doesn't work for members |
 | `F2` | Show the documentation of the selected item | ? |  |
 | `alt+up/down` | Move the current line above or below | `ctrl+shift+up/down` |  |
-| `ctrl+(shift+)F6` | Go to next(previous) editor (editor = tab with code) | `ctrl+(shift+)tab` | May not be this one |
+| `ctrl+(shift+)F6` | Go to next(last) **edited** open tab (from the editor = tab with code) | | **E:**  Does not use the order they show up on the editor bar, but the *last modified tab order* |
 | `ctrl+enter` | Insert newline and break the current one at cursor position |  | Same functionality as simply pressing `enter` |
 | `shift+enter` | Insert newline but don't break the current line |  | Same functionality as going to the end of the line, then pressing `enter` |
 | `ctrl+shift+enter` | Insert newline above the current line |  |  |
 | `F4` | Show class hierarchy |  |  |
+| `not set by default` |Go to next tab or previous tab in the order they show up in the tab editor. | `ctrl+(shift+)tab` | **E:** *This is what people use usually.* Different from next/previous editor, as this cycles through the open tabs from left <-> right (firefox/chrome style), instead of the "last edited tab" thingy. |
+| `alt+left/right` | Go to the previous/next edit location | `alt+(shift+)minus` | **E:** This can open closed tabs as well (since eclipse doesn't have that functionality) |
 
 
 ## Windows shortcuts
