@@ -28,3 +28,7 @@ robocopy [src] [dest] /MIR /Z  /R:0 /W:5 /MT /XJ /LOG:a.txt
 	- master commit: [https://bitbucket.org/thebestpessimist/dippidy-derp/src/master/random.md](https://bitbucket.org/thebestpessimist/dippidy-derp/src/master/random.md)
 	
 - for a mecurial repo use `tip` instead of the id of that file.
+
+
+## 3D Simple CAD
+[https://www.tinkercad.com/things/cCYigB4RS75](https://www.tinkercad.com/things/cCYigB4RS75)
