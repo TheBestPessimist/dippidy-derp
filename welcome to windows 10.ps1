@@ -16,3 +16,8 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # It is rumored that remote differential compression slows stuff down. Who knows?
 # https://www.trishtech.com/2010/08/turn-off-remote-differential-compression-in-windows-7/
 DISM /online /disable-feature /FeatureName:MSRDC-Infrastructure
+
+
+#Disable xBox services - "xBox Game Monitoring Service" - XBGM - Can't be disabled (access denied)
+Get-Service XblAuthManager,XblGameSave,XboxNetApiSvc -erroraction silentlycontinue | stop-service -passthru | set-service -startuptype disabled
+
