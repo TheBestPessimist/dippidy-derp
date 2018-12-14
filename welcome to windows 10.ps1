@@ -21,3 +21,6 @@ DISM /online /disable-feature /FeatureName:MSRDC-Infrastructure
 #Disable xBox services - "xBox Game Monitoring Service" - XBGM - Can't be disabled (access denied)
 Get-Service XblAuthManager,XblGameSave,XboxNetApiSvc -erroraction silentlycontinue | stop-service -passthru | set-service -startuptype disabled
 
+
+# Disable some windows Activity tracker
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\' -Value 0 -Name 'PublishUserActivities'
