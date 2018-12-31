@@ -24,3 +24,8 @@ Get-Service XblAuthManager,XblGameSave,XboxNetApiSvc -erroraction silentlycontin
 
 # Disable some windows Activity tracker
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System\' -Value 0 -Name 'PublishUserActivities'
+
+
+# Autologin windows
+# Ref: https://www.lifewire.com/how-do-i-auto-login-to-windows-2626066
+netplwiz
