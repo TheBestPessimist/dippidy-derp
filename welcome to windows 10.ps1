@@ -12,6 +12,8 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 2 -Name 'TaskbarGlomLevel'
 
 
+# Show Files extensions
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 0 -Name 'HideFileExt'
 
 # It is rumored that remote differential compression slows stuff down. Who knows?
 # https://www.trishtech.com/2010/08/turn-off-remote-differential-compression-in-windows-7/
@@ -41,7 +43,56 @@ Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 # Disable app suggestions from Start menu
 Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name 'SubscribedContent-338388Enabled'
 
+# Disallow windows to update over metered networks
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 0 -Name 'AllowAutoWindowsUpdateDownloadOverMeteredNetwork'
+
+# Set working hours to as much as possible so that windows won't try to update or restart
+# Start @ 7:00 AM
+# End   @ 1:00 AM (18 hours)
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 7 -Name 'ActiveHoursStart'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 1 -Name 'ActiveHoursEnd'
+
+# Delay updates as much as possible, and notify about them
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 365 -Name 'DeferFeatureUpdatesPeriodInDays'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 30 -Name 'DeferQualityUpdatesPeriodInDays'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 0 -Name 'ExcludeWUDriversInQualityUpdate'
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 1 -Name 'RestartNotificationsAllowed2'
+
+
+# Disable some start menu bullshit
+Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name SystemPaneSuggestionsEnabled
+Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name PreInstalledAppsEnabled
+Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name OemPreInstalledAppsEnabled
+
+
+# Uninstall some "Modern Apps"
+# Ref: https://blog.danic.net/how-windows-10-pro-installs-unwanted-apps-candy-crush-and-how-you-stop-it/
+$appsToRemove = @(
+    "Microsoft.3DBuilder",
+    "Microsoft.Appconnector",
+    "Microsoft.BingFinance",
+    "Microsoft.BingNews",
+    "Microsoft.DesktopAppInstaller",
+    "Microsoft.Getstarted",
+    "Microsoft.Messaging",
+    "Microsoft.MicrosoftOfficeHub",
+    "Microsoft.MicrosoftStickyNotes",
+    "Microsoft.Office.OneNote",
+    "Microsoft.Office.Sway",
+    "Microsoft.OneConnect",
+    "Microsoft.People",
+    "Microsoft.SkypeApp",
+    "Microsoft.windowscommunicationsapps",
+    "Microsoft.MicrosoftSolitaireCollection"
+    "Microsoft.MixedReality.Portal",
+    "Microsoft.YourPhone",
+    "Microsoft.WindowsPhone"
+)
+Get-AppxProvisionedPackage -Online | where-object {$_.DisplayName -in $appsToRemove } | Remove-AppxProvisionedPackage -Online
+
 
 # Autologin windows
 # Ref: https://www.lifewire.com/how-do-i-auto-login-to-windows-2626066
 netplwiz
+
+
