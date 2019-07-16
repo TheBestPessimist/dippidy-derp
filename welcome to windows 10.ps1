@@ -1,5 +1,44 @@
+function mkShortcut($folder, $fileName, $targetPath, $arguments)
+{
+    $s = (New-Object -COM WScript.Shell).CreateShortcut("$folder\$fileName.lnk")
+    $s.TargetPath = $targetPath
+    $s.Arguments = """$arguments"""
+    $s.WorkingDirectory = Split-Path $targetPath
+    $s.Save()
+}
+
+
+function replaceScheduledTask($scheduledTaskName, $programToExecute)
+{
+    Unregister-ScheduledTask -TaskName $scheduledTaskName -Confirm: $false -ErrorAction SilentlyContinue
+
+    $task = New-ScheduledTaskAction -Execute $programToExecute
+    $trigger = New-ScheduledTaskTrigger -AtLogon
+    $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew
+
+    $scheduledTaskParameters = @{
+        TaskName = $scheduledTaskName
+        Action = $task
+        Trigger = $trigger
+        RunLevel = "Highest"
+        # User = $userCredentials.username
+        # Password = $userCredentials.password
+        Settings = $settings
+    }
+    Register-ScheduledTask @scheduledTaskParameters
+}
+
+
+
+
+
+
 # Scripts and command to make windows 10 a little bit more user-friendly
 # Run this as admin
+
+# needed for stuffs
+taskkill /f /im explorer.exe
+
 
 # Open windows explorer to "My PC" instead of "recents"
 # https://superuser.com/questions/819521/how-do-i-make-windows-10s-file-explorer-open-this-pc-by-default
@@ -159,8 +198,77 @@ Remove-Item -Force -Recurse  "$env:ProgramData\Microsoft OneDrive"
 
 
 
+# Associate .ahk with AutoHotkey Files
+cmd /c 'assoc .ahk="AutoHotkey File"'
+cmd /c 'Ftype "AutoHotkey File"="C:\all\AutoHotkey\AutoHotkeyU64.exe" %1'
+
+
+# Create shortcuts
+$GlobalStartupFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+$UserStartupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+$StartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+
+
+mkShortcut $GlobalStartupFolder "AutoHotkeyU64.ahk" "C:\all\AutoHotkey\AutoHotkeyU64.ahk"
+mkShortcut $GlobalStartupFolder "Launcher.ahk" "C:\all\AutoHotKey-Launcher\Launcher.ahk"
+mkShortcut $StartFolder "JDownloader2.exe" "C:\all\JDownloader v2.0\JDownloader2.exe"
+mkShortcut $GlobalStartupFolder "ShareX.exe" "C:\all\ShareX-portable\ShareX.exe"
+mkShortcut $UserStartupFolder "PageAnt.exe" "C:\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" "$env:USERPROFILE\.ssh\metasfresh.ppk"
+
+
+# Set default power actions
+
+# Hibernate when power button pressed
+# Ref: https://www.tenforums.com/tutorials/69741-change-default-action-power-button-windows-10-a.html#option3
+powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
+powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
+
+# Do nothing on lid close
+# Ref: https://www.tenforums.com/tutorials/69762-change-lid-close-default-action-windows-10-a.html
+powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
+powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
+
+# Do nothing when sleep button
+powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+
+
+# Ignore some folders in windows defender
+Add-MpPreference -ExclusionPath "C:\work-metas\"
+Add-MpPreference -ExclusionPath "C:\work\"
+Add-MpPreference -ExclusionPath "$env:USERPROFILE\AppData\Local\JetBrains"
+
+
+
+
+# Make start menu and taskbar
+#       todo sometime
+
+
+
+# Create ThrottleStop scheduledTask
+$taskName = "Throttle Stop"
+$programPath = "C:\all\ThrottleStop\ThrottleStop.exe"
+replaceScheduledTask $taskName $programPath
+
+
+
+# Time and date format
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dd-MMM-yy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
+
+
+
+# Restart explorer
+explorer.exe
+
+
+
+
 # Autologin windows
 # Ref: https://www.lifewire.com/how-do-i-auto-login-to-windows-2626066
 netplwiz
-
 
