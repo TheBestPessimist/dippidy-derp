@@ -111,9 +111,52 @@ $appsToRemove = @(
     "Microsoft.MicrosoftSolitaireCollection"
     "Microsoft.MixedReality.Portal",
     "Microsoft.YourPhone",
+    "7EE7776C.LinkedInforWindows",
+    "Microsoft.Xbox.TCUI",
+    "Microsoft.XboxApp",
+    "Microsoft.XboxGameOverlay",
+    "Microsoft.XboxGamingOverlay",
+    "Microsoft.XboxIdentityProvider",
+    "Microsoft.XboxSpeechToTextOverlay",
     "Microsoft.WindowsPhone"
 )
 Get-AppxProvisionedPackage -Online | where-object {$_.DisplayName -in $appsToRemove } | Remove-AppxProvisionedPackage -Online
+
+
+
+$appsToRemove = @(
+    "7EE7776C.LinkedInforWindows",
+    "Microsoft.MicrosoftOfficeHub",
+    "Microsoft.MicrosoftSolitaireCollection",
+    "Microsoft.MicrosoftStickyNotes",
+    "Microsoft.Office.OneNote",
+    "Microsoft.SkypeApp",
+    "Microsoft.WindowsMaps",
+    "Microsoft.Xbox.TCUI",
+    "Microsoft.XboxApp",
+    "Microsoft.XboxGameOverlay",
+    "Microsoft.XboxGamingOverlay",
+    "Microsoft.XboxIdentityProvider",
+    "Microsoft.XboxSpeechToTextOverlay",
+    "king.com.CandyCrushSaga"
+)
+foreach ($app in $appsToRemove)
+{
+    Remove-AppxPackage (Get-AppxPackage $app).PackageFullName
+}
+
+
+# Uninstall OneDrive
+taskkill /f /im OneDrive.exe
+taskkill /f /im explorer.exe
+
+& "$env:SystemRoot\SysWOW64\OneDriveSetup.exe" /uninstall
+
+Remove-Item -Force -Recurse "$env:USERPROFILE\OneDrive"
+Remove-Item -Force -Recurse  "C:\OneDriveTemp"
+Remove-Item -Force -Recurse  "$env:LOCALAPPDATA\Microsoft\OneDrive"
+Remove-Item -Force -Recurse  "$env:ProgramData\Microsoft OneDrive"
+
 
 
 # Autologin windows
