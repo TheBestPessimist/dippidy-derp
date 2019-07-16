@@ -15,6 +15,10 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 # Show Files extensions
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 0 -Name 'HideFileExt'
 
+# Show hidden files
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 1 -Name 'Hidden'
+
+
 # It is rumored that remote differential compression slows stuff down. Who knows?
 # https://www.trishtech.com/2010/08/turn-off-remote-differential-compression-in-windows-7/
 DISM /online /disable-feature /FeatureName:MSRDC-Infrastructure
