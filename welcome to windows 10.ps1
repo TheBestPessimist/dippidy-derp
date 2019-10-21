@@ -15,21 +15,75 @@ function replaceScheduledTask($scheduledTaskName, $programToExecute)
     $task = New-ScheduledTaskAction -Execute $programToExecute
     $trigger = New-ScheduledTaskTrigger -AtLogon
     $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew
+    $principal = New-ScheduledTaskPrincipal -GroupId 'Users' -RunLevel Highest
 
     $scheduledTaskParameters = @{
         TaskName = $scheduledTaskName
         Action = $task
         Trigger = $trigger
-        RunLevel = "Highest"
-        # User = $userCredentials.username
-        # Password = $userCredentials.password
+        Principal = $principal
         Settings = $settings
     }
     Register-ScheduledTask @scheduledTaskParameters
 }
 
 
+# Source: https://superuser.com/a/1442733/206341
+function fuckYouMicrosoft()
+{
+    #Delete layout file if it already exists
+    If(Test-Path C:\Windows\StartLayout.xml)
+    {
+        Remove-Item C:\Windows\StartLayout.xml
+    }
 
+    #Creates the blank layout file
+    echo "<LayoutModificationTemplate xmlns:defaultlayout=""http://schemas.microsoft.com/Start/2014/FullDefaultLayout"" xmlns:start=""http://schemas.microsoft.com/Start/2014/StartLayout"" Version=""1"" xmlns=""http://schemas.microsoft.com/Start/2014/LayoutModification"">" >> C:\Windows\StartLayout.xml
+    echo "  <LayoutOptions StartTileGroupCellWidth=""6"" />" >> C:\Windows\StartLayout.xml
+    echo "  <DefaultLayoutOverride>" >> C:\Windows\StartLayout.xml
+    echo "    <StartLayoutCollection>" >> C:\Windows\StartLayout.xml
+    echo "      <defaultlayout:StartLayout GroupCellWidth=""6"" />" >> C:\Windows\StartLayout.xml
+    echo "    </StartLayoutCollection>" >> C:\Windows\StartLayout.xml
+    echo "  </DefaultLayoutOverride>" >> C:\Windows\StartLayout.xml
+    echo "</LayoutModificationTemplate>" >> C:\Windows\StartLayout.xml
+
+    $regAliases = @("HKLM", "HKCU")
+
+    #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
+    foreach ($regAlias in $regAliases){
+        $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+        $keyPath = $basePath + "\Explorer"
+        IF(!(Test-Path -Path $keyPath)) {
+            New-Item -Path $basePath -Name "Explorer"
+        }
+        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
+        Set-ItemProperty -Path $keyPath -Name "StartLayoutFile" -Value "C:\Windows\StartLayout.xml"
+    }
+
+    #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
+    Stop-Process -name explorer
+    Start-Sleep -s 5
+    $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+    Start-Sleep -s 5
+
+    #Enable the ability to pin items again by disabling "LockedStartLayout"
+    foreach ($regAlias in $regAliases){
+        $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
+        $keyPath = $basePath + "\Explorer"
+        Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
+    }
+
+    #Restart Explorer and delete the layout file
+    Stop-Process -name explorer
+    Remove-Item C:\Windows\StartLayout.xml
+}
+
+# Source: https://stackoverflow.com/a/46357909/2161279
+function unpinFromExplorer($folderPath)
+{
+    $qa = New-Object -ComObject shell.application
+    ($qa.Namespace("shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}").Items() | Where-Object { $_.Path -EQ $folderPath }).InvokeVerb("unpinfromhome")
+}
 
 
 
@@ -189,7 +243,11 @@ foreach ($app in $appsToRemove)
 taskkill /f /im OneDrive.exe
 taskkill /f /im explorer.exe
 
+sleep 5
+
 & "$env:SystemRoot\SysWOW64\OneDriveSetup.exe" /uninstall
+
+sleep 5
 
 Remove-Item -Force -Recurse "$env:USERPROFILE\OneDrive"
 Remove-Item -Force -Recurse  "C:\OneDriveTemp"
@@ -206,14 +264,14 @@ cmd /c 'Ftype "AutoHotkey File"="C:\all\AutoHotkey\AutoHotkeyU64.exe" %1'
 # Create shortcuts
 $GlobalStartupFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
 $UserStartupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
-$StartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+$GlobalStartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 
 
 mkShortcut $GlobalStartupFolder "AutoHotkeyU64.ahk" "C:\all\AutoHotkey\AutoHotkeyU64.ahk"
 mkShortcut $GlobalStartupFolder "Launcher.ahk" "C:\all\AutoHotKey-Launcher\Launcher.ahk"
-mkShortcut $StartFolder "JDownloader2.exe" "C:\all\JDownloader v2.0\JDownloader2.exe"
+mkShortcut $GlobalStartFolder "JDownloader2.exe" "C:\all\JDownloader v2.0\JDownloader2.exe"
 mkShortcut $GlobalStartupFolder "ShareX.exe" "C:\all\ShareX-portable\ShareX.exe"
-mkShortcut $UserStartupFolder "PageAnt.exe" "C:\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" "$env:USERPROFILE\.ssh\metasfresh.ppk"
+# mkShortcut $UserStartupFolder "PageAnt.exe" "C:\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" "$env:USERPROFILE\.ssh\metasfresh.ppk"
 
 
 # Set default power actions
@@ -241,10 +299,14 @@ Add-MpPreference -ExclusionPath "$env:USERPROFILE\AppData\Local\JetBrains"
 
 
 
-# Make start menu and taskbar
-#       todo sometime
+# Make start menu and taskbar decent
+fuckYouMicrosoft
 
-
+# Unpin folders from explorer quick access
+unpinFromExplorer 'C:\Users\chill\Documents'
+unpinFromExplorer 'C:\Users\chill\Pictures'
+unpinFromExplorer 'C:\Users\chill\Music'
+unpinFromExplorer 'C:\Users\chill\Videos'
 
 # Create ThrottleStop scheduledTask
 $taskName = "Throttle Stop"
