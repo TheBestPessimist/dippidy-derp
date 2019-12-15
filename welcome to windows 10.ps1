@@ -99,7 +99,6 @@ taskkill /f /im explorer.exe
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 1 -Name 'LaunchTo'
 
 
-
 # Never combine application's buttons
 # https://superuser.com/questions/135015/set-never-combine-in-windows-7-using-the-registry
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 2 -Name 'TaskbarGlomLevel'
@@ -263,7 +262,7 @@ cmd /c 'Ftype "AutoHotkey File"="C:\all\AutoHotkey\AutoHotkeyU64.exe" %1'
 
 # Create shortcuts
 $GlobalStartupFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
-$UserStartupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
+# $UserStartupFolder = "$env:APPDATA\Microsoft\Windows\Start Menu\Programs\Startup"
 $GlobalStartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 
 
@@ -278,17 +277,17 @@ mkShortcut $GlobalStartupFolder "ShareX.exe" "C:\all\ShareX-portable\ShareX.exe"
 
 # Hibernate when power button pressed
 # Ref: https://www.tenforums.com/tutorials/69741-change-default-action-power-button-windows-10-a.html#option3
-powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
-powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
+# powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
+# powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 7648efa3-dd9c-4e3e-b566-50f929386280 2
 
 # Do nothing on lid close
 # Ref: https://www.tenforums.com/tutorials/69762-change-lid-close-default-action-windows-10-a.html
-powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
-powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
+# powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
+# powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 5ca83367-6e45-459f-a27b-476b1d01c936 0
 
 # Do nothing when sleep button
-powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
-powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+# powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+# powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
 
 
 # Ignore some folders in windows defender
@@ -302,11 +301,22 @@ Add-MpPreference -ExclusionPath "$env:USERPROFILE\AppData\Local\JetBrains"
 # Make start menu and taskbar decent
 fuckYouMicrosoft
 
+
+# Disable the retarded notification "Could Not Reconnect All Network Drives", which is a fucking lie, Microsoft
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\NetworkProvider' -Value 0 -Name 'RestoreConnection'
+
+
+
+
+# Restart explorer
+explorer.exe
+
+
 # Unpin folders from explorer quick access
-unpinFromExplorer 'C:\Users\chill\Documents'
-unpinFromExplorer 'C:\Users\chill\Pictures'
-unpinFromExplorer 'C:\Users\chill\Music'
-unpinFromExplorer 'C:\Users\chill\Videos'
+unpinFromExplorer "C:\Users\${env:USERNAME}\Documents"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Pictures"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Music"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Videos"
 
 # Create ThrottleStop scheduledTask
 $taskName = "Throttle Stop"
@@ -316,12 +326,23 @@ replaceScheduledTask $taskName $programPath
 
 
 # Time and date format
-Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
-Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dd-MMM-yy";
-Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
-Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
-Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
+# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
+# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dddd, d MMMM, yyyy";
+# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
+# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
+# Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
 
+
+$culture = Get-Culture
+$culture.DateTimeFormat.ShortDatePattern = 'd/MM/yyyy'
+$culture.DateTimeFormat.FirstDayOfWeek = 'Monday'
+$culture.DateTimeFormat.ShortDatePattern = 'dddd, d MMMM, yyyy'
+$culture.DateTimeFormat.ShortTimePattern = 'HH:mm'
+$culture.DateTimeFormat.LongDatePattern = 'dddd, d MMMM, yyyy'
+Set-Culture $culture
+
+# because of some unknown reason, ShortTimePattern is wrong and i have to set it from registry
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
 
 
 # Restart explorer
