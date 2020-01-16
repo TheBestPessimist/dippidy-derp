@@ -2,7 +2,7 @@ function mkShortcut($folder, $fileName, $targetPath, $arguments)
 {
     $s = (New-Object -COM WScript.Shell).CreateShortcut("$folder\$fileName.lnk")
     $s.TargetPath = $targetPath
-    $s.Arguments = """$arguments"""
+    $s.Arguments = '"' + ($keys -join '" "') + '"'
     $s.WorkingDirectory = Split-Path $targetPath
     $s.Save()
 }
@@ -270,7 +270,8 @@ mkShortcut $GlobalStartupFolder "AutoHotkeyU64.ahk" "C:\all\AutoHotkey\AutoHotke
 mkShortcut $GlobalStartupFolder "Launcher.ahk" "C:\all\AutoHotKey-Launcher\Launcher.ahk"
 mkShortcut $GlobalStartFolder "JDownloader2.exe" "C:\all\JDownloader v2.0\JDownloader2.exe"
 mkShortcut $GlobalStartupFolder "ShareX.exe" "C:\all\ShareX-portable\ShareX.exe"
-# mkShortcut $UserStartupFolder "PageAnt.exe" "C:\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" "$env:USERPROFILE\.ssh\metasfresh.ppk"
+$PageAntKeys = (Get-ChildItem "$env:USERPROFILE\.ssh\" -Filter *.ppk).FullName
+mkShortcut $UserStartupFolder "PageAnt.exe" "C:\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" $PageAntKeys
 
 
 # Set default power actions
