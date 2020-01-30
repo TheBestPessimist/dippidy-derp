@@ -32,7 +32,7 @@ function replaceScheduledTask($scheduledTaskName, $programToExecute)
 function fuckYouMicrosoft()
 {
     #Delete layout file if it already exists
-    If(Test-Path C:\Windows\StartLayout.xml)
+    If (Test-Path C:\Windows\StartLayout.xml)
     {
         Remove-Item C:\Windows\StartLayout.xml
     }
@@ -50,10 +50,12 @@ function fuckYouMicrosoft()
     $regAliases = @("HKLM", "HKCU")
 
     #Assign the start layout and force it to apply with "LockedStartLayout" at both the machine and user level
-    foreach ($regAlias in $regAliases){
+    foreach ($regAlias in $regAliases)
+    {
         $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
         $keyPath = $basePath + "\Explorer"
-        IF(!(Test-Path -Path $keyPath)) {
+        IF (!(Test-Path -Path $keyPath))
+        {
             New-Item -Path $basePath -Name "Explorer"
         }
         Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 1
@@ -63,11 +65,12 @@ function fuckYouMicrosoft()
     #Restart Explorer, open the start menu (necessary to load the new layout), and give it a few seconds to process
     Stop-Process -name explorer
     Start-Sleep -s 5
-    $wshell = New-Object -ComObject wscript.shell; $wshell.SendKeys('^{ESCAPE}')
+    $wshell = New-Object -ComObject wscript.shell;$wshell.SendKeys('^{ESCAPE}')
     Start-Sleep -s 5
 
     #Enable the ability to pin items again by disabling "LockedStartLayout"
-    foreach ($regAlias in $regAliases){
+    foreach ($regAlias in $regAliases)
+    {
         $basePath = $regAlias + ":\SOFTWARE\Policies\Microsoft\Windows"
         $keyPath = $basePath + "\Explorer"
         Set-ItemProperty -Path $keyPath -Name "LockedStartLayout" -Value 0
@@ -117,7 +120,7 @@ DISM /online /disable-feature /FeatureName:MSRDC-Infrastructure
 
 
 # Disable xBox services - "xBox Game Monitoring Service" - XBGM - Can't be disabled (access denied)
-Get-Service XblAuthManager,XblGameSave,XboxNetApiSvc -erroraction silentlycontinue | stop-service -passthru | set-service -startuptype disabled
+Get-Service XblAuthManager, XblGameSave, XboxNetApiSvc -erroraction silentlycontinue | stop-service -passthru | set-service -startuptype disabled
 
 
 # Disable some windows Activity tracker
@@ -185,52 +188,52 @@ Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\P
 # Uninstall some "Modern Apps"
 # Ref: https://blog.danic.net/how-windows-10-pro-installs-unwanted-apps-candy-crush-and-how-you-stop-it/
 $appsToRemove = @(
-    "Microsoft.3DBuilder",
-    "Microsoft.Appconnector",
-    "Microsoft.BingFinance",
-    "Microsoft.BingNews",
-    "Microsoft.DesktopAppInstaller",
-    "Microsoft.Getstarted",
-    "Microsoft.Messaging",
-    "Microsoft.MicrosoftOfficeHub",
-    "Microsoft.MicrosoftStickyNotes",
-    "Microsoft.Office.OneNote",
-    "Microsoft.Office.Sway",
-    "Microsoft.OneConnect",
-    "Microsoft.People",
-    "Microsoft.SkypeApp",
-    "Microsoft.windowscommunicationsapps",
-    "Microsoft.MicrosoftSolitaireCollection"
-    "Microsoft.MixedReality.Portal",
-    "Microsoft.YourPhone",
-    "7EE7776C.LinkedInforWindows",
-    "Microsoft.Xbox.TCUI",
-    "Microsoft.XboxApp",
-    "Microsoft.XboxGameOverlay",
-    "Microsoft.XboxGamingOverlay",
-    "Microsoft.XboxIdentityProvider",
-    "Microsoft.XboxSpeechToTextOverlay",
-    "Microsoft.WindowsPhone"
+"Microsoft.3DBuilder",
+"Microsoft.Appconnector",
+"Microsoft.BingFinance",
+"Microsoft.BingNews",
+"Microsoft.DesktopAppInstaller",
+"Microsoft.Getstarted",
+"Microsoft.Messaging",
+"Microsoft.MicrosoftOfficeHub",
+"Microsoft.MicrosoftStickyNotes",
+"Microsoft.Office.OneNote",
+"Microsoft.Office.Sway",
+"Microsoft.OneConnect",
+"Microsoft.People",
+"Microsoft.SkypeApp",
+"Microsoft.windowscommunicationsapps",
+"Microsoft.MicrosoftSolitaireCollection"
+"Microsoft.MixedReality.Portal",
+"Microsoft.YourPhone",
+"7EE7776C.LinkedInforWindows",
+"Microsoft.Xbox.TCUI",
+"Microsoft.XboxApp",
+"Microsoft.XboxGameOverlay",
+"Microsoft.XboxGamingOverlay",
+"Microsoft.XboxIdentityProvider",
+"Microsoft.XboxSpeechToTextOverlay",
+"Microsoft.WindowsPhone"
 )
-Get-AppxProvisionedPackage -Online | where-object {$_.DisplayName -in $appsToRemove } | Remove-AppxProvisionedPackage -Online
+Get-AppxProvisionedPackage -Online | where-object { $_.DisplayName -in $appsToRemove } | Remove-AppxProvisionedPackage -Online
 
 
 
 $appsToRemove = @(
-    "7EE7776C.LinkedInforWindows",
-    "Microsoft.MicrosoftOfficeHub",
-    "Microsoft.MicrosoftSolitaireCollection",
-    "Microsoft.MicrosoftStickyNotes",
-    "Microsoft.Office.OneNote",
-    "Microsoft.SkypeApp",
-    "Microsoft.WindowsMaps",
-    "Microsoft.Xbox.TCUI",
-    "Microsoft.XboxApp",
-    "Microsoft.XboxGameOverlay",
-    "Microsoft.XboxGamingOverlay",
-    "Microsoft.XboxIdentityProvider",
-    "Microsoft.XboxSpeechToTextOverlay",
-    "king.com.CandyCrushSaga"
+"7EE7776C.LinkedInforWindows",
+"Microsoft.MicrosoftOfficeHub",
+"Microsoft.MicrosoftSolitaireCollection",
+"Microsoft.MicrosoftStickyNotes",
+"Microsoft.Office.OneNote",
+"Microsoft.SkypeApp",
+"Microsoft.WindowsMaps",
+"Microsoft.Xbox.TCUI",
+"Microsoft.XboxApp",
+"Microsoft.XboxGameOverlay",
+"Microsoft.XboxGamingOverlay",
+"Microsoft.XboxIdentityProvider",
+"Microsoft.XboxSpeechToTextOverlay",
+"king.com.CandyCrushSaga"
 )
 foreach ($app in $appsToRemove)
 {
@@ -327,11 +330,11 @@ replaceScheduledTask $taskName $programPath
 
 
 # Time and date format
- Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
- Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dddd, d MMMM, yyyy";
- Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
- Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
- Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dddd, d MMMM, yyyy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
 
 
 $culture = Get-Culture
@@ -349,6 +352,11 @@ Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Val
 # Restart explorer
 explorer.exe
 
+
+# Disable sound ducking in sound settings -> communications
+# https://www.sevenforums.com/tutorials/13210-system-sounds-auto-leveling-disable.html
+
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Multimedia\Audio" -Name UserDuckingPreference -Value 3;
 
 
 
