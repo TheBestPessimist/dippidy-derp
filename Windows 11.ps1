@@ -93,6 +93,7 @@ Set-ExecutionPolicy RemoteSigned
 
 
 # Associate .ps1 with Powershell 7 Files
+# Run this in pwsh admin terminal
 cmd /c 'assoc .ps1="Powershell 7 File"'
 cmd /c 'Ftype "Powershell 7 File"=pwsh.exe -NoExit -File "%1"'
 
@@ -227,6 +228,35 @@ make autostart
 add taskbar shortcut to
 - mediamonkey
 
+
+
+
+# Time and date format
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name iFirstDayOfWeek -Value "0";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sLongDate -Value "dddd, d MMMM, yyyy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Value "dddd, d MMMM, yyyy";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
+Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name syEARmONTH -Value "MMMM yyyy";
+
+
+# Disable auto brightness
+# https://www.elevenforum.com/t/turn-on-or-off-content-adaptive-brightness-control-in-windows-11.2608/
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1";
+
+
+# Power config 
+# https://jakubjares.com/2018/11/08/powercfg/
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/update-power-settings
+
+# Enable battery saver as soon as i unplug
+powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
+powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
+
+
+# Turn off automatic display dimming on battery saver
+powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
+powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
 
 
 
