@@ -6,6 +6,7 @@ winget install Google.Drive
 winget install JetBrains.Toolbox
 winget install ZeroTier.ZeroTierOne
 winget install Docker.DockerDesktop
+winget install 7zip.7zip # TODO: backup and restore the registry properties under HKEY_CURRENT_USER\Software\7-Zip
 
 
 # Make git save credentials
@@ -15,10 +16,17 @@ git config --global core.autocrlf false # THIS IS WHAT YOU WANT!!!
 
 
 
+<#
+Help:
+https://superuser.com/questions/605633/how-do-i-escape-spaces-for-the-ftype-command-in-windows
+https://stackoverflow.com/questions/48280464/how-can-i-associate-a-file-type-with-a-powershell-script
 
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/ftype
+https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/assoc
+#>
 # Associate .ahk with AutoHotkey Files
-cmd /c 'assoc .ahk="AutoHotkey File"'
-cmd /c 'Ftype "AutoHotkey File"="D:\all\all\AutoHotkey\AutoHotkey64.exe" %1'
+cmd /c 'assoc .ahk="AutoHotkey.File"'
+cmd /c 'ftype "AutoHotkey.File"="D:\all\all\AutoHotkey\AutoHotkey64.exe" %1'
 
 
 
