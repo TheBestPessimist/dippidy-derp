@@ -246,27 +246,3 @@ Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortDate -Val
 Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Value "HH:mm";
 Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sTimeFormat -Value "HH:mm:ss";
 Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name syEARmONTH -Value "MMMM yyyy";
-
-
-# Disable auto brightness
-# https://www.elevenforum.com/t/turn-on-or-off-content-adaptive-brightness-control-in-windows-11.2608/
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1";
-
-
-# Power config 
-# https://jakubjares.com/2018/11/08/powercfg/
-# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/update-power-settings
-
-# Enable battery saver as soon as i unplug
-powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
-powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
-
-
-# Turn off automatic display dimming on battery saver
-powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
-powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
-
-# Disable Modern Standby
-# It's a piece of shit. Fuck this fucking shit. Whenever my screen turns off, laptop goes to sleep. This if fucking retarded
-Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name PlatformAoAcOverride -Value 0
-Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name CsEnabled -Value 0
