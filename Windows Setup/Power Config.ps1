@@ -4,7 +4,9 @@ https://jakubjares.com/2018/11/08/powercfg/
 https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/update-power-settings
 
 interesting commands:
-- powercfg.exe -query
+- powercfg -query
+- powercfg -qh (MUCH more details than the above command)
+- powercfg -aliasesh
 #>
 
 
