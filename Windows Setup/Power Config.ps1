@@ -90,3 +90,27 @@ powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
 # Possibly interesting setting: Prompt for password on resume from sleep
 # Default is yes and i think i agree
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/no-subgroup-settings-prompt-for-password-on-resume
+
+
+
+<#
+Other things i've done to my Asus laptop:
+https://answers.microsoft.com/en-us/insider/forum/all/windows-10-wakes-randomly-from-hibernate/247e69c3-cc7a-40db-b34e-43d8d60e6947?page=2
+
+PS C:\Windows\System32> powercfg /devicequery wake_armed
+HID-compliant mouse (002)
+HID-compliant mouse (003)
+HID Keyboard Device (003)
+USB4(TM) Root Device Router (Microsoft)
+HID Keyboard Device (004)
+
+
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (002)'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
+powercfg /DEVICEDISABLEWAKE 'USB4(TM) Root Device Router (Microsoft)'
+
+
+
+#>
