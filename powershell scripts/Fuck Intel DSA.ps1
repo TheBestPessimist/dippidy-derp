@@ -1,4 +1,4 @@
-. "./Run As Admin.ps1"
+. ./Elevate.ps1
 
 
 intel DSA autostart: 
@@ -11,7 +11,12 @@ Status   Name               DisplayName
 Stopped  DSAService         Intel(R) Driver & Support Assistant
 Stopped  DSAUpdateService   Intel(R) Driver & Support Assistant U…
 
-set those services to manual start should be enough
 
-# sample of how to do stuff:
-# get-service *asus*      | stop-service    -ErrorAction SilentlyContinue
+
+# Stop and disable the services
+Get-Service *dsa* | Set-Service -Status Stopped -StartupType Manual
+
+
+
+# Start the service
+Get-Service *dsa* | Start-Service
