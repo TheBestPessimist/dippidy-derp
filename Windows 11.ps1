@@ -100,10 +100,10 @@ Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name DelayLockInterval 
 Set-ExecutionPolicy RemoteSigned
 
 
-# Associate .ps1 with Powershell 7 Files
+# Associate .ps1 with Powershell
 # Run this in pwsh admin terminal
-cmd /c 'assoc .ps1="Powershell 7 File"'
-cmd /c 'Ftype "Powershell 7 File"=pwsh.exe -NoExit -File "%1"'
+cmd /c 'assoc .ps1="Powershell.File"'
+cmd /c 'Ftype "Powershell.File"=pwsh -NoExit -File "%1"'
 
 
 # Uninstall OneDrive
