@@ -6,7 +6,7 @@ Unfortunately I have to make this script because windows is fucking retarded and
 Why? Fuck knows.
 I swear man, every new windows version has more retarded changes, just to have some retarded changes written to the changelog.
 #>
-. "./Run As Admin.ps1"
+. ./Elevate.ps1
 
 Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name DelayLockInterval -Verbose
 

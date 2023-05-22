@@ -1,4 +1,4 @@
-. "./Run As Admin.ps1"
+. ./Elevate.ps1
 
 # get-service *asus*      | stop-service    -ErrorAction SilentlyContinue
 get-service *armoury*   | stop-service      -ErrorAction SilentlyContinue
