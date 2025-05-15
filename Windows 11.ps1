@@ -83,6 +83,7 @@ Set-ItemProperty -Path 'Registry::HKEY_LOCAL_MACHINE\System\CurrentControlSet\Co
 
 enable long paths:
 HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled set to 1.
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem\' -Value 1 -Name 'LongPathsEnabled'
 
 
 
@@ -123,6 +124,7 @@ Get-AppxProvisionedPackage -online | where-object {$_.PackageName -like "*Micros
 
 
 # Unpin folders from explorer quick access
+stop-process -name explorer –force
 
 # Source: https://stackoverflow.com/a/46357909/2161279
 function unpinFromExplorer($folderPath)
