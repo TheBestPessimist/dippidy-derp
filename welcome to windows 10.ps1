@@ -18,20 +18,10 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Val
 $appsToRemove = @(
 "Microsoft.3DBuilder",
 "Microsoft.Appconnector",
-"Microsoft.BingFinance",
-"Microsoft.BingNews",
 "Microsoft.DesktopAppInstaller",
 "Microsoft.Getstarted",
-"Microsoft.Messaging",
-"Microsoft.MicrosoftOfficeHub",
-"Microsoft.MicrosoftStickyNotes",
-"Microsoft.Office.OneNote",
-"Microsoft.Office.Sway",
-"Microsoft.OneConnect",
 "Microsoft.People",
-"Microsoft.SkypeApp",
 "Microsoft.windowscommunicationsapps",
-"Microsoft.MicrosoftSolitaireCollection"
 "Microsoft.MixedReality.Portal",
 "Microsoft.YourPhone",
 "7EE7776C.LinkedInforWindows",
@@ -48,20 +38,13 @@ Get-AppxProvisionedPackage -Online | where-object { $_.DisplayName -in $appsToRe
 
 
 $appsToRemove = @(
-"7EE7776C.LinkedInforWindows",
-"Microsoft.MicrosoftOfficeHub",
-"Microsoft.MicrosoftSolitaireCollection",
-"Microsoft.MicrosoftStickyNotes",
-"Microsoft.Office.OneNote",
-"Microsoft.SkypeApp",
-"Microsoft.WindowsMaps",
+
 "Microsoft.Xbox.TCUI",
 "Microsoft.XboxApp",
 "Microsoft.XboxGameOverlay",
 "Microsoft.XboxGamingOverlay",
 "Microsoft.XboxIdentityProvider",
 "Microsoft.XboxSpeechToTextOverlay",
-"king.com.CandyCrushSaga"
 )
 foreach ($app in $appsToRemove)
 {

@@ -284,10 +284,24 @@ unpinFromExplorer "C:\Users\${env:USERNAME}\Music"
 unpinFromExplorer "C:\Users\${env:USERNAME}\Videos"
 
 
+#-----------------
+# Uninstall shitty apps
+Get-AppxPackage 7EE7776C.LinkedInforWindows | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingFinance | Remove-AppxPackage
+Get-AppxPackage Microsoft.BingNews | Remove-AppxPackage
+Get-AppxPackage Microsoft.Messaging | Remove-AppxPackage
+Get-AppxPackage Microsoft.MicrosoftOfficeHub | Remove-AppxPackage
+Get-AppxPackage Microsoft.MicrosoftSolitaireCollection | Remove-AppxPackage
+Get-AppxPackage Microsoft.MicrosoftStickyNotes | Remove-AppxPackage
+Get-AppxPackage Microsoft.Office.OneNote | Remove-AppxPackage
+Get-AppxPackage Microsoft.Office.Sway | Remove-AppxPackage
+Get-AppxPackage Microsoft.OneConnect | Remove-AppxPackage
+Get-AppxPackage Microsoft.SkypeApp | Remove-AppxPackage
+Get-AppxPackage Microsoft.WindowsMaps | Remove-AppxPackage
+Get-AppxPackage king.com.CandyCrushSaga | Remove-AppxPackage
 
 
 #-----------------
-
 # Manual stuff
 
 restore windows terminal settings
