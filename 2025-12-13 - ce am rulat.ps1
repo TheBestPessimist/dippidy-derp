@@ -10,6 +10,9 @@ winget install Docker.DockerDesktop
 winget install 7zip.7zip # TODO: backup and restore the registry properties under HKEY_CURRENT_USER\Software\7-Zip
 winget install mediainfo-cli
 winget install File-New-Project.EarTrumpet
+# Uninstall widgets
+winget uninstall "Windows web experience Pack"
+
 
 #-----------------
 # Make git save credentials
@@ -65,6 +68,14 @@ Remove-Item -Force -Recurse  "$env:ProgramData\Microsoft OneDrive"
 # Uninstall Feces
 Get-AppxPackage MicrosoftTeams* | Remove-AppxPackage -AllUsers
 Get-AppxProvisionedPackage -online | where-object {$_.PackageName -like "*MicrosoftTeams*"} | Remove-AppxProvisionedPackage -online –Verbose
+
+#-----------------
+# NEED ADMIN
+# Disable th garbage called 'UserChoice Protection Driver (UCPD)
+# https://www.reddit.com/r/PowerShell/comments/1g8jdg6/works_in_ise_but_not_in_terminal_windows_11/
+New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\UCPD" -Name “Start” -Value 4 -PropertyType DWORD -Force
+
+Disable-ScheduledTask -TaskName "\Microsoft\Windows\AppxDeploymentClient\UCPD velocity"
 
 #-----------------
 # Open windows explorer to "My PC" instead of "recents"
@@ -185,31 +196,16 @@ Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer
 
 # Remove widgets from lock screen
 # https://www.elevenforum.com/t/enable-or-disable-widgets-on-lock-screen-in-windows-11.33140/
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Lock Screen' -Value 0 -Name 'LockScreenWidgetsEnabled'
 
+# Remove widgets from taskbar
+# https://www.elevenforum.com/t/add-or-remove-widgets-button-on-taskbar-in-windows-11.32/#Two
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'TaskbarDa'
+reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDa /t REG_DWORD /d 0 /f
 
-
-
-[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lock Screen]
-"LockScreenWidgetsEnabled"=dword:00000000
-
-
-# Disable widgets completely
-# https://www.elevenforum.com/t/enable-or-disable-widgets-feature-in-windows-11.1196/#Two
-[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests]
-"value"=dword:00000001
-
-[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh]
-"AllowNewsAndInterests"=-
-
-
-
-
-
-
-
-
-
-
+# Disable 'please make a windows account' bullshit
+# https://www.elevenforum.com/t/enable-or-disable-notification-badging-for-microsoft-accounts-on-start-menu-in-windows-11.14645/
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'Start_AccountNotifications'
 
 
 
@@ -237,6 +233,8 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 
 # Enable long paths
 Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Value 1 -Name 'LongPathsEnabled'
+
+
 
 
 
@@ -301,3 +299,15 @@ make autostart
 add taskbar shortcut to
 - mediamonkey
 - sublime text
+
+# Create the network shares
+# ❗ NOT As admin ❗
+
+# first go in explorer here and save passwords
+\\tbp-nuc
+\\roxanas-mbp
+
+New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel\Patrunjel\Patrunjel" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
