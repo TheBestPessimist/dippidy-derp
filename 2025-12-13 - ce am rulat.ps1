@@ -166,3 +166,138 @@ Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\NetworkProvider' 
 # Disable sound ducking in sound settings -> communications
 # https://www.sevenforums.com/tutorials/13210-system-sounds-auto-leveling-disable.html
 Set-ItemProperty -Path "HKCU:\Software\Microsoft\Multimedia\Audio" -Name UserDuckingPreference -Value 3;
+
+# Disable Windows Welcome Experience
+# https://www.tenforums.com/tutorials/76252-turn-off-windows-welcome-experience-windows-10-a.html
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name 'SubscribedContent-310093Enabled'
+
+# Disable Windows Get tips, tricks, and suggestions as you use Windows
+# https://www.tenforums.com/tutorials/30869-turn-off-tip-trick-suggestion-notifications-windows-10-a.html
+Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name 'SubscribedContent-338389Enabled'
+
+# Disable Lock Screen after screen is simply turned off (ie after idle timeout)
+# See: https://www.tenforums.com/tutorials/158033-change-time-require-sign-after-display-turns-off-windows-10-a.html
+Remove-ItemProperty -Path 'HKCU:\Control Panel\Desktop' -Name DelayLockInterval -Verbose
+
+# Move taskbar to the left
+# https://www.elevenforum.com/t/change-taskbar-alignment-in-windows-11.12/
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'TaskbarAl'
+
+# Remove widgets from lock screen
+# https://www.elevenforum.com/t/enable-or-disable-widgets-on-lock-screen-in-windows-11.33140/
+
+
+
+
+[HKEY_CURRENT_USER\Software\Microsoft\Windows\CurrentVersion\Lock Screen]
+"LockScreenWidgetsEnabled"=dword:00000000
+
+
+# Disable widgets completely
+# https://www.elevenforum.com/t/enable-or-disable-widgets-feature-in-windows-11.1196/#Two
+[HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\PolicyManager\default\NewsAndInterests\AllowNewsAndInterests]
+"value"=dword:00000001
+
+[HKEY_LOCAL_MACHINE\SOFTWARE\Policies\Microsoft\Dsh]
+"AllowNewsAndInterests"=-
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#-----------------
+# NEED ADMIN
+# Disable the retarded notification "Could Not Reconnect All Network Drives", which is a fucking lie, Microsoft
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\NetworkProvider' -Value 0 -Name 'RestoreConnection'
+
+# Disable some windows Activity tracker
+# https://www.elevenforum.com/t/enable-or-disable-store-activity-history-on-device-in-windows-11.7812/
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\System' -Value 0 -Name 'PublishUserActivities'
+
+# Remove Home from Windows Explorer
+# https://www.elevenforum.com/t/add-or-remove-home-in-navigation-pane-of-file-explorer-in-windows-11.2449/
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{f874310e-b6b7-47dc-bc84-b9e6b38f5903}" -Name "HiddenByDefault" -Value 1 -Type DWord
+
+# Remove Gallery from Windows Explorer
+# https://www.elevenforum.com/t/add-or-remove-gallery-in-file-explorer-navigation-pane-in-windows-11.14178/
+Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}" -Name "HiddenByDefault" -Value 1 -Type DWord
+
+# Enable long paths
+Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Value 1 -Name 'LongPathsEnabled'
+
+
+
+
+#-----------------
+# Create shortcuts for autostart
+# Note, i cannot create shortcuts to taskbar, even as admin. No idea why, they just dont show up
+function mkShortcut($folder, $fileName, $targetPath, $arguments)
+{
+    $s = (New-Object -COM WScript.Shell).CreateShortcut("$folder\$fileName.lnk")
+    $s.TargetPath = $targetPath
+    $s.Arguments = '"' + ($arguments -join '" "') + '"'
+    $s.WorkingDirectory = Split-Path $targetPath
+    $s.Save()
+}
+
+$StartUPFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs\StartUp"
+$StartUpLocalUserFolder = "C:\Users\TheBestPessimist\AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup"
+$StartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
+
+
+mkShortcut $StartUPLocalUserFolder "AutoHotkey64.ahk" "D:\all\all\AutoHotkey\AutoHotkey64.ahk"
+mkShortcut $StartUPLocalUserFolder "Flow.Launcher.exe" "D:\all\all\FlowLauncher\Flow.Launcher.exe"
+mkShortcut $StartUPLocalUserFolder "ShareX.exe" "D:\all\all\ShareX-portable\ShareX.exe"
+mkShortcut $StartUPLocalUserFolder "Telegram.exe" "D:\all\all\Telegram\Telegram.exe"
+mkShortcut $StartUPLocalUserFolder "AltSnap.exe" "D:\all\all\AltSnap\AltSnap.exe"
+
+
+# $PageAntKeys = (Get-ChildItem "$env:USERPROFILE\.ssh\" -Filter *.ppk).FullName
+# mkShortcut $StartUPFolder "PageAnt.exe" "D:\all\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" $PageAntKeys
+#
+# mkShortcut $StartFolder "JDownloader2.exe" "D:\all\all\JDownloader v2.0\JDownloader2.exe"
+
+
+#-----------------
+# Unpin folders from explorer quick access
+# https://stackoverflow.com/a/46357909/2161279
+function unpinFromExplorer($folderPath)
+{
+    $qa = New-Object -ComObject shell.application
+    ($qa.Namespace("shell:::{679F85CB-0220-4080-B29B-5540CC05AAB6}").Items() | Where-Object { $_.Path -EQ $folderPath }).InvokeVerb("unpinfromhome")
+}
+
+unpinFromExplorer "C:\Users\${env:USERNAME}\Documents"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Pictures"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Music"
+unpinFromExplorer "C:\Users\${env:USERNAME}\Videos"
+
+
+
+
+#-----------------
+
+# Manual stuff
+
+restore windows terminal settings
+
+make autostart
+- ghelper (run as admin to create the scheduled task)
+- everything + everything service
+
+add taskbar shortcut to
+- mediamonkey
+- sublime text
