@@ -1,13 +1,36 @@
 <#
+
+possibly useful to restore the power plans
+https://www.elevenforum.com/t/restore-missing-power-plans-in-windows-11.6898/
+
+
+
 Power config
 https://jakubjares.com/2018/11/08/powercfg/
 https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/update-power-settings
 
 interesting commands:
-- powercfg -query
-- powercfg -qh (MUCH more details than the above command)
-- powercfg -aliasesh
+powercfg -query
+powercfg -qh (MUCH more details than the above command)
+powercfg -aliasesh
+
+DC means on battery (setdcvalueindex)
+AC means on charger (setacvalueindex)
+
+
+Maybe this command is enough to disable the fucking modern standby:
+- https://www.elevenforum.com/t/disable-modern-standby-in-windows-10-and-windows-11.3929/
+- https://learn.microsoft.com/en-us/previous-versions/windows/iot-core/learn-about-hardware/wakeontouch#disabling-modern-standby
+
+reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t REG_DWORD /d 0
+
+
 #>
+
+
+
+"HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
+
 
 
 # Disable auto brightness
@@ -19,6 +42,8 @@ Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" 
 # It's a piece of shit. Fuck this fucking shit. Whenever my screen turns off, laptop goes to sleep. This if fucking retarded
 # https://www.elevenforum.com/t/disable-modern-standby-in-windows-10-and-windows-11.3929/
 Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name PlatformAoAcOverride -Value 0
+
+# # return the old  power schemes???? - i dont think this works as expected
 # Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name CsEnabled -Value 0
 
 # Enable Hibernate
@@ -27,7 +52,7 @@ powercfg /hibernate on
 # Enable battery saver as soon as i unplug
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/battery-threshold
 powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
-powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
+powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 0
 
 # Turn off automatic display dimming on battery saver
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/brightness
@@ -44,10 +69,20 @@ powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
 powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
 powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
 
-# Hibernate after 30 min
+# Disable unattended sleep
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
+
+# Disable Away mode
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-allow-away-mode
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
+
+
+# Hibernate after 60 min
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-hibernate-idle-timeout
-powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 1800
-powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 1800
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 3600
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 3600
 
 # Do not allow any wake timers
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-automatically-wake-for-tasks
@@ -88,29 +123,40 @@ powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO VIDEOADAPT 1
 powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
 powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
 
+
+# Remove a feature called "Gallery" whatever the shit that is
+# https://www.elevenforum.com/t/add-or-remove-gallery-in-file-explorer-navigation-pane-in-windows-11.14178/
+Remove-Item "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer\Desktop\NameSpace_41040327\{e88865ea-0e1c-4e20-9aa6-edcd0212c87c}"
+
 # Possibly interesting setting: Prompt for password on resume from sleep
 # Default is yes and i think i agree
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/no-subgroup-settings-prompt-for-password-on-resume
 
+# This might be an interesting one:
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-allow-sleep-states?source=recommendations
 
 
 <#
 Other things i've done to my Asus laptop:
 https://answers.microsoft.com/en-us/insider/forum/all/windows-10-wakes-randomly-from-hibernate/247e69c3-cc7a-40db-b34e-43d8d60e6947?page=2
 
-PS C:\Windows\System32> powercfg /devicequery wake_armed
-HID-compliant mouse (002)
-HID-compliant mouse (003)
-HID Keyboard Device (003)
-USB4(TM) Root Device Router (Microsoft)
-HID Keyboard Device (004)
+powercfg /devicequery wake_armed
 
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
 
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (002)'
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (003)'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
 powercfg /DEVICEDISABLEWAKE 'USB4(TM) Root Device Router (Microsoft)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (001)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
+powercfg /DEVICEDISABLEWAKE 'USB4 Root Router'
+powercfg /DEVICEDISABLEWAKE 'Intel(R) Wi-Fi 6E AX211 160MHz'
 
 
 

@@ -29,11 +29,6 @@ taskkill /f /im explorer.exe
 
 
 
-# Never combine application's buttons
-# https://superuser.com/questions/135015/set-never-combine-in-windows-7-using-the-registry
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\' -Value 2 -Name 'TaskbarGlomLevel'
-
-
 
 
 
@@ -48,19 +43,8 @@ Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentD
 
 
 
-# Hide Cortana crap taskbar button and search bar
-# Hide Task View taskbar button
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Search' -Value 0 -Name 'SearchboxTaskbarMode'
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'ShowCortanaButton'
-Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'ShowTaskViewButton'
 
 
-
-# Set working hours to as much as possible so that windows won't try to update or restart
-# Start @ 7:00 AM
-# End   @ 1:00 AM (18 hours)
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 7 -Name 'ActiveHoursStart'
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 1 -Name 'ActiveHoursEnd'
 
 # Delay updates as much as possible, and notify about them
 # Note, there are a log of interesting keys here which maybe it makes sense to preserve
@@ -70,20 +54,7 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Val
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings' -Value 1 -Name 'RestartNotificationsAllowed2'
 
 
-# Disable some start menu bullshit
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name SystemPaneSuggestionsEnabled
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name PreInstalledAppsEnabled
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\ContentDeliveryManager' -Value 0 -Name OemPreInstalledAppsEnabled
 
-
-# Automatically pick an accent color from my background
-# Set the accent color on all surfaces
-# Ref: https://serverfault.com/questions/867018/gpo-windows-10-set-accent-color-to-auto-from-background
-# Ref: https://www.tenforums.com/tutorials/5768-turn-off-start-taskbar-action-center-color-windows-10-a.html
-# Ref: https://www.tenforums.com/tutorials/32174-turn-off-show-color-title-bars-borders-windows-10-a.html
-Set-ItemProperty -Path 'HKCU:\Control Panel\Desktop'-Value 1 -Name 'AutoColorization'
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\DWM'-Value 1 -Name 'ColorPrevalence'
-Set-ItemProperty -Path 'HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize'-Value 1 -Name 'ColorPrevalence'
 
 
 
@@ -166,9 +137,6 @@ foreach ($app in $appsToRemove)
 
 
 
-# Disable the retarded notification "Could Not Reconnect All Network Drives", which is a fucking lie, Microsoft
-Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\NetworkProvider' -Value 0 -Name 'RestoreConnection'
-
 
 # todo disable focus assist.
 
@@ -208,10 +176,6 @@ Set-ItemProperty -Path "HKCU:\Control Panel\International" -Name sShortTime -Val
 explorer.exe
 
 
-# Disable sound ducking in sound settings -> communications
-# https://www.sevenforums.com/tutorials/13210-system-sounds-auto-leveling-disable.html
-
-Set-ItemProperty -Path "HKCU:\Software\Microsoft\Multimedia\Audio" -Name UserDuckingPreference -Value 3;
 
 
 
