@@ -12,6 +12,8 @@ winget install mediainfo-cli
 winget install File-New-Project.EarTrumpet
 # Uninstall widgets
 winget uninstall "Windows web experience Pack"
+winget install fend
+
 
 
 #-----------------
@@ -19,6 +21,8 @@ winget uninstall "Windows web experience Pack"
 git config --global --unset credential.helper
 git config --global credential.helper manager
 git config --global core.autocrlf false # THIS IS WHAT YOU WANT!!!
+
+
 
 #-----------------
 # NEED ADMIN
@@ -33,6 +37,8 @@ https://learn.microsoft.com/en-us/windows-server/administration/windows-commands
 cmd /c 'assoc .ahk="AutoHotkey.File"'
 cmd /c 'ftype "AutoHotkey.File"="D:\all\all\AutoHotkey\AutoHotkey64.exe" %1'
 
+
+
 #-----------------
 # NEED ADMIN
 # Ignore some folders in windows defender
@@ -41,11 +47,15 @@ Add-MpPreference -ExclusionPath "D:\all\work-bgts\"
 Add-MpPreference -ExclusionPath "D:\all\work\"
 Add-MpPreference -ExclusionPath "$env:USERPROFILE\AppData\Local\JetBrains"
 
+
+
 #-----------------
 # NEED ADMIN
 # Allow .ps1 scripts created by me to run, disallow internet scripts to run.
 # See https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/about/about_execution_policies?view=powershell-7.3#use-group-policy-to-manage-execution-policy
 Set-ExecutionPolicy RemoteSigned
+
+
 
 #-----------------
 # NEED ADMIN
@@ -53,6 +63,8 @@ Set-ExecutionPolicy RemoteSigned
 # Run this in pwsh admin terminal
 cmd /c 'assoc .ps1="Powershell.File"'
 cmd /c 'Ftype "Powershell.File"=pwsh -NoExit -File "%1"'
+
+
 
 #-----------------
 # NEED ADMIN
@@ -63,19 +75,24 @@ Remove-Item -Force -Recurse  "C:\OneDriveTemp"
 Remove-Item -Force -Recurse  "$env:LOCALAPPDATA\Microsoft\OneDrive"
 Remove-Item -Force -Recurse  "$env:ProgramData\Microsoft OneDrive"
 
+
+
 #-----------------
 # NEED ADMIN
 # Uninstall Feces
 Get-AppxPackage MicrosoftTeams* | Remove-AppxPackage -AllUsers
 Get-AppxProvisionedPackage -online | where-object {$_.PackageName -like "*MicrosoftTeams*"} | Remove-AppxProvisionedPackage -online –Verbose
 
+
+
 #-----------------
 # NEED ADMIN
 # Disable th garbage called 'UserChoice Protection Driver (UCPD)
 # https://www.reddit.com/r/PowerShell/comments/1g8jdg6/works_in_ise_but_not_in_terminal_windows_11/
 New-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\UCPD" -Name “Start” -Value 4 -PropertyType DWORD -Force
-
 Disable-ScheduledTask -TaskName "\Microsoft\Windows\AppxDeploymentClient\UCPD velocity"
+
+
 
 #-----------------
 # Open windows explorer to "My PC" instead of "recents"
@@ -207,10 +224,10 @@ reg.exe add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /
 # https://www.elevenforum.com/t/enable-or-disable-notification-badging-for-microsoft-accounts-on-start-menu-in-windows-11.14645/
 Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Value 0 -Name 'Start_AccountNotifications'
 
-
-
-
-
+# Disable the 'Facts, Tips, and Tricks' on Lock Screen (the stupid and useless links)
+# https://www.elevenforum.com/t/enable-or-disable-facts-tips-and-tricks-on-lock-screen-in-windows-11.7079/
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "RotatingLockScreenOverlayEnabled" -Value 0 -Type DWord -Force
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" -Name "SubscribedContent-338387Enabled" -Value 0 -Type DWord -Force
 
 
 
@@ -233,9 +250,6 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 
 # Enable long paths
 Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Value 1 -Name 'LongPathsEnabled'
-
-
-
 
 
 
@@ -262,10 +276,8 @@ mkShortcut $StartUPLocalUserFolder "ShareX.exe" "D:\all\all\ShareX-portable\Shar
 mkShortcut $StartUPLocalUserFolder "Telegram.exe" "D:\all\all\Telegram\Telegram.exe"
 mkShortcut $StartUPLocalUserFolder "AltSnap.exe" "D:\all\all\AltSnap\AltSnap.exe"
 
-
 # $PageAntKeys = (Get-ChildItem "$env:USERPROFILE\.ssh\" -Filter *.ppk).FullName
 # mkShortcut $StartUPFolder "PageAnt.exe" "D:\all\all\PortableApps\PortableApps\PuTTYPortable\App\putty\PAGEANT.EXE" $PageAntKeys
-#
 # mkShortcut $StartFolder "JDownloader2.exe" "D:\all\all\JDownloader v2.0\JDownloader2.exe"
 
 
@@ -284,6 +296,7 @@ unpinFromExplorer "C:\Users\${env:USERNAME}\Music"
 unpinFromExplorer "C:\Users\${env:USERNAME}\Videos"
 
 
+
 #-----------------
 # Uninstall shitty apps
 Get-AppxPackage 7EE7776C.LinkedInforWindows | Remove-AppxPackage
@@ -299,6 +312,7 @@ Get-AppxPackage Microsoft.OneConnect | Remove-AppxPackage
 Get-AppxPackage Microsoft.SkypeApp | Remove-AppxPackage
 Get-AppxPackage Microsoft.WindowsMaps | Remove-AppxPackage
 Get-AppxPackage king.com.CandyCrushSaga | Remove-AppxPackage
+
 
 
 #-----------------
@@ -325,3 +339,121 @@ New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel
 New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
 New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
 New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
+
+
+
+
+
+#-----------------
+# Power config
+
+# Enable Hibernate
+powercfg /hibernate on
+
+
+# Enable battery saver as soon as i unplug
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/battery-threshold
+powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
+powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 0
+
+# Do not allow any wake timers
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-automatically-wake-for-tasks
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP RTCWAKE 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP RTCWAKE 0
+
+# Hibernate after 60 min
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-hibernate-idle-timeout
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 3600
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HIBERNATEIDLE 3600
+
+# Do nothing when lid is open
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/lid-open-wake-action
+powercfg -setdcvalueindex SCHEME_ALL SUB_BUTTONS LIDOPENWAKE 0
+powercfg -setacvalueindex SCHEME_ALL SUB_BUTTONS LIDOPENWAKE 0
+
+# Do nothing when lid is closed
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/power-button-and-lid-settings-lid-switch-close-action
+powercfg -setdcvalueindex SCHEME_ALL SUB_BUTTONS LIDACTION 0
+powercfg -setacvalueindex SCHEME_ALL SUB_BUTTONS LIDACTION 0
+
+# Hibernate on power button press
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/power-button-and-lid-settings-power-button-action
+powercfg -setdcvalueindex SCHEME_ALL SUB_BUTTONS PBUTTONACTION 2
+powercfg -setacvalueindex SCHEME_ALL SUB_BUTTONS PBUTTONACTION 2
+
+# Hibernate on sleep button press
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/power-button-and-lid-settings-sleep-button-action
+powercfg -setdcvalueindex SCHEME_ALL SUB_BUTTONS 96996bc0-ad50-47ec-923b-6f41874dd9eb 2
+powercfg -setacvalueindex SCHEME_ALL SUB_BUTTONS 96996bc0-ad50-47ec-923b-6f41874dd9eb 2
+
+# Turn off display after 3 min of idle
+powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO VIDEOIDLE 180
+powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO VIDEOIDLE 180
+
+# Disable adaptive brightness
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/display-settings-adaptive-display-idle-timeout
+powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
+powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
+
+
+
+#-----------------
+# NEED ADMIN
+# Disable things which automatically wake my laptop
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (002)'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
+powercfg /DEVICEDISABLEWAKE 'USB4(TM) Root Device Router (Microsoft)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (001)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
+powercfg /DEVICEDISABLEWAKE 'USB4 Root Router'
+powercfg /DEVICEDISABLEWAKE 'Intel(R) Wi-Fi 6E AX211 160MHz'
+
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
+powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (001)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
+powercfg /DEVICEDISABLEWAKE 'USB4 Root Router (1.0)'
+
+powercfg /devicequery wake_armed
+
+
+
+#-----------------
+# NEED ADMIN
+# Disable Modern Standby
+# It's a piece of shit. Fuck this fucking shit. Whenever my screen turns off, laptop goes to sleep. This if fucking retarded
+# https://www.elevenforum.com/t/disable-modern-standby-in-windows-10-and-windows-11.3929/
+# https://www.reddit.com/r/Dell/comments/x61qtb/comment/in8cgel/?context=3
+# reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t REG_DWORD /d 0
+Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name PlatformAoAcOverride -Value 0
+
+# I dont think this works.
+# at the next windows reinstall (whenever that happens), if this command does nothing, remove it.
+# # return the old  power schemes???? - i dont think this works as expected
+# Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name CsEnabled -Value 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
