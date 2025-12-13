@@ -13,3 +13,5 @@
 /modules.xml
 /vcs.xml
 /AugmentWebviewStateStore.xml
+/dataSources*
+/db-forest-config.xml
