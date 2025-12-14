@@ -13,7 +13,7 @@ winget install File-New-Project.EarTrumpet
 # Uninstall widgets
 winget uninstall "Windows web experience Pack"
 winget install fend
-
+winget install yt-dlp.FFmpeg.Shared 
 
 
 #-----------------
@@ -350,7 +350,6 @@ New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokam
 # Enable Hibernate
 powercfg /hibernate on
 
-
 # Enable battery saver as soon as i unplug
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/battery-threshold
 powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
@@ -390,10 +389,15 @@ powercfg -setacvalueindex SCHEME_ALL SUB_BUTTONS 96996bc0-ad50-47ec-923b-6f41874
 powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO VIDEOIDLE 180
 powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO VIDEOIDLE 180
 
-# Disable adaptive brightness
+# Disable adaptive idle timeout
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/display-settings-adaptive-display-idle-timeout
 powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
 powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
+
+# Disable adaptive brightness
+# https://www.elevenforum.com/t/turn-on-or-off-adaptive-brightness-in-windows-11.2618/
+powercfg -setacvalueindex SCHEME_ALL 7516b95f-f776-4464-8c53-06167f40cc99 FBD9AA66-9553-4097-BA44-ED6E9D65EAB8 0
+powercfg -setdcvalueindex SCHEME_ALL 7516b95f-f776-4464-8c53-06167f40cc99 FBD9AA66-9553-4097-BA44-ED6E9D65EAB8 0
 
 
 
@@ -439,6 +443,14 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name Plat
 # # return the old  power schemes???? - i dont think this works as expected
 # Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name CsEnabled -Value 0
 
+# Disable Content adaptive brightness control (CABC)
+# https://www.elevenforum.com/t/turn-on-or-off-content-adaptive-brightness-control-in-windows-11.2608/
+# Who the fucking FUCK wants, their image to go darker during dark images and brighter during bright images?  I DONT WANT MY FUCKING EYES TO BURN BRIGHT?
+# What you _should_ want is to keep the relative brightness FUCKING STABLE: make dark screens a little brighter and white fucking screens a little darker, not the other way around.
+# Imagine how fucking stupid it is to see the brightness changing while watching a film, when from one scene to another it just changes brightness. Like ARE YOU FUCKING RETARDED?
+# Fuck my life, whoever the fuck thought about this fucking retarded feature? How much of a cretin are you?
+# Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1"; # i'm not sure this works
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name CABCOption -Value "0";
 
 
 

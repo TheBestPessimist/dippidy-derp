@@ -32,10 +32,6 @@ reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t R
 
 
 
-# Disable auto brightness
-# https://www.elevenforum.com/t/turn-on-or-off-content-adaptive-brightness-control-in-windows-11.2608/
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1";
-
 
 
 
