@@ -273,7 +273,7 @@ $StartFolder = "C:\ProgramData\Microsoft\Windows\Start Menu\Programs"
 mkShortcut $StartUPLocalUserFolder "AutoHotkey64.ahk" "D:\all\all\AutoHotkey\AutoHotkey64.ahk"
 mkShortcut $StartUPLocalUserFolder "Flow.Launcher.exe" "D:\all\all\FlowLauncher\Flow.Launcher.exe"
 mkShortcut $StartUPLocalUserFolder "ShareX.exe" "D:\all\all\ShareX-portable\ShareX.exe"
-mkShortcut $StartUPLocalUserFolder "Telegram.exe" "D:\all\all\Telegram\Telegram.exe"
+mkShortcut $StartUPLocalUserFolder "Telegram.exe" "D:\all\all\Telegram\Telegram.exe" "-autostart"
 mkShortcut $StartUPLocalUserFolder "AltSnap.exe" "D:\all\all\AltSnap\AltSnap.exe"
 
 # $PageAntKeys = (Get-ChildItem "$env:USERPROFILE\.ssh\" -Filter *.ppk).FullName
@@ -449,8 +449,11 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name Plat
 # What you _should_ want is to keep the relative brightness FUCKING STABLE: make dark screens a little brighter and white fucking screens a little darker, not the other way around.
 # Imagine how fucking stupid it is to see the brightness changing while watching a film, when from one scene to another it just changes brightness. Like ARE YOU FUCKING RETARDED?
 # Fuck my life, whoever the fuck thought about this fucking retarded feature? How much of a cretin are you?
-# Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1"; # i'm not sure this works
-Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name CABCOption -Value "0";
+#
+# 2025-12-14: None of the 2 options below work, so i have to change this setting myself
+#             Settings -> System -> Display -> Brightness -> Change brightness based on content -> Off
+# Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1";
+# Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name CABCOption -Value "0";
 
 
 
