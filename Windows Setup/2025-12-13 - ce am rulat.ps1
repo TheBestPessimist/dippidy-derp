@@ -251,6 +251,11 @@ Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer
 # Enable long paths
 Set-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Value 1 -Name 'LongPathsEnabled'
 
+# Enable 'End Task' in taskbar
+# https://www.elevenforum.com/t/enable-or-disable-end-task-in-taskbar-by-right-click-in-windows-11.14325/#Two
+# Create the registry key if it doesn't exist
+New-Item -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings' -Force
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced\TaskbarDeveloperSettings' -Name TaskbarEndTask -Value 1
 
 
 #-----------------
@@ -454,6 +459,30 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name Plat
 #             Settings -> System -> Display -> Brightness -> Change brightness based on content -> Off
 # Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name DisableCABC -Value "1";
 # Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" -Name CABCOption -Value "0";
+
+# Disable storage sense
+# https://www.elevenforum.com/t/enable-or-disable-storage-sense-in-windows-11.1238/
+# Create the registry key if it doesn't exist
+New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' -Force
+Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' -Name AllowStorageSenseGlobal -Value 0
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
