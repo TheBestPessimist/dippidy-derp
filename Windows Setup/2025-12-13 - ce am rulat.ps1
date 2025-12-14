@@ -440,7 +440,6 @@ powercfg /devicequery wake_armed
 # It's a piece of shit. Fuck this fucking shit. Whenever my screen turns off, laptop goes to sleep. This if fucking retarded
 # https://www.elevenforum.com/t/disable-modern-standby-in-windows-10-and-windows-11.3929/
 # https://www.reddit.com/r/Dell/comments/x61qtb/comment/in8cgel/?context=3
-# reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t REG_DWORD /d 0
 Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name PlatformAoAcOverride -Value 0
 
 # I dont think this works.
@@ -465,38 +464,6 @@ Set-ItemProperty -Path "HKLM:\System\CurrentControlSet\Control\Power" -Name Plat
 # Create the registry key if it doesn't exist
 New-Item -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' -Force
 Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' -Name AllowStorageSenseGlobal -Value 0
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
