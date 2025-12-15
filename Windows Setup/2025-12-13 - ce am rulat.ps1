@@ -14,7 +14,7 @@ winget install File-New-Project.EarTrumpet
 winget uninstall "Windows web experience Pack"
 winget install fend
 winget install yt-dlp.FFmpeg.Shared 
-
+winget install k9s
 
 #-----------------
 # Make git save credentials
