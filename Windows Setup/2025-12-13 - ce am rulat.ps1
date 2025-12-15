@@ -468,11 +468,13 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' 
 
 
 # Add things to User Path
-$newPath = [Environment]::GetEnvironmentVariable("Path", "User") `
-    + ";D:\all\all\File Pilot", `
-    + ";D:\all\all\Python\live", `
-    + ""
+$newPath = @(
+    [Environment]::GetEnvironmentVariable("Path", "User")
+    "D:\all\all\File Pilot"
+    "D:\all\all\Python\live"
+) -join ";"
 $newPath
+
 [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
 
 # Set JAVA_HOME to user Envs
