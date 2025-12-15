@@ -467,4 +467,62 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' 
 
 
 
+# Add things to User Path
+$newPath = [Environment]::GetEnvironmentVariable("Path", "User") `
+    + ";D:\all\all\File Pilot", `
+    + ""
+$newPath
+[Environment]::SetEnvironmentVariable("Path", $newPath, "User")
+
+# Set JAVA_HOME to user Envs
+[Environment]::SetEnvironmentVariable("JAVA_HOME", "C:\Users\TheBestPessimist\.jdks\temurin-17.0.17", "User")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 a
