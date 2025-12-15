@@ -15,7 +15,6 @@ winget uninstall "Windows web experience Pack"
 winget install fend
 winget install yt-dlp.FFmpeg.Shared 
 winget install k9s
-winget install python
 
 #-----------------
 # Make git save credentials
@@ -471,6 +470,7 @@ Set-ItemProperty -Path 'HKLM:\SOFTWARE\Policies\Microsoft\Windows\StorageSense' 
 # Add things to User Path
 $newPath = [Environment]::GetEnvironmentVariable("Path", "User") `
     + ";D:\all\all\File Pilot", `
+    + ";D:\all\all\Python\live", `
     + ""
 $newPath
 [Environment]::SetEnvironmentVariable("Path", $newPath, "User")
