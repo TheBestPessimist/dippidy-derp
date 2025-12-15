@@ -15,6 +15,7 @@ winget uninstall "Windows web experience Pack"
 winget install fend
 winget install yt-dlp.FFmpeg.Shared 
 winget install k9s
+winget install python
 
 #-----------------
 # Make git save credentials
