@@ -40,10 +40,6 @@ reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t R
 powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
 powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
 
-# Disable going to sleep. It fucks my laptop up.
-# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-sleep-idle-timeout
-powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
-powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
 
 # Disable hybrid sleep
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-hybrid-sleep

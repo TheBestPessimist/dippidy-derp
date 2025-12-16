@@ -355,6 +355,11 @@ New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokam
 # Enable Hibernate
 powercfg /hibernate on
 
+# Disable going to sleep. It fucks my laptop up.
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-sleep-idle-timeout
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
+
 # Enable battery saver as soon as i unplug
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/battery-threshold
 powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
