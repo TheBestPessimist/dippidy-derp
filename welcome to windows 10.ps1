@@ -68,3 +68,11 @@ foreach ($app in $appsToRemove)
 # Do nothing when sleep button
 # powercfg -setdcvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
 # powercfg -setacvalueindex SCHEME_CURRENT 4f971e89-eebd-4455-a8de-9e59040e7347 96996bc0-ad50-47ec-923b-6f41874dd9eb 0
+
+
+
+
+
+TODO: how long for notifications to be shown
+problem is: cannotmake it lower than 5 secons :(
+https://www.elevenforum.com/t/change-how-long-notifications-stay-open-in-windows-11.819/

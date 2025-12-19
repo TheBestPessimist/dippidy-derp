@@ -319,36 +319,6 @@ Get-AppxPackage Microsoft.WindowsMaps | Remove-AppxPackage
 Get-AppxPackage king.com.CandyCrushSaga | Remove-AppxPackage
 
 
-
-#-----------------
-# Manual stuff
-
-restore windows terminal settings
-
-make autostart
-- ghelper (run as admin to create the scheduled task)
-- everything + everything service
-
-add taskbar shortcut to
-- mediamonkey
-- sublime text
-
-# Create the network shares
-# ❗ NOT As admin ❗
-
-# first go in explorer here and save passwords
-\\tbp-nuc
-\\roxanas-mbp
-
-New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel\Patrunjel\Patrunjel" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
-
-
-
-
-
 #-----------------
 # Power config
 
@@ -428,12 +398,13 @@ powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (003)'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (004)'
 powercfg /DEVICEDISABLEWAKE 'USB4 Root Router'
 powercfg /DEVICEDISABLEWAKE 'Intel(R) Wi-Fi 6E AX211 160MHz'
-
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (001)'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
 powercfg /DEVICEDISABLEWAKE 'USB4 Root Router (1.0)'
+powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (002)'
+
 
 powercfg /devicequery wake_armed
 
@@ -531,6 +502,29 @@ $newPath
 
 
 
+#-----------------
+# Manual stuff
 
+restore windows terminal settings
 
-a
+make autostart
+- ghelper (run as admin to create the scheduled task)
+- everything + everything service
+
+add taskbar shortcut to
+- mediamonkey
+- sublime text
+
+# Create the network shares
+# ❗ NOT As admin ❗
+
+# first go in explorer here and save passwords
+\\tbp-nuc
+\\roxanas-mbp
+
+New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel\Patrunjel\Patrunjel" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
+New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
+
+# disable wake for wifi network (via ncpa.cpl)
