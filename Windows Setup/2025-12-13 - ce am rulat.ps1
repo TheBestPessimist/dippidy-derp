@@ -384,6 +384,7 @@ powercfg -setdcvalueindex SCHEME_ALL 7516b95f-f776-4464-8c53-06167f40cc99 FBD9AA
 #-----------------
 # NEED ADMIN
 # Disable things which automatically wake my laptop
+# https://www.tenforums.com/tutorials/63064-view-wake-timers-windows-10-a.html
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
 powercfg /DEVICEDISABLEWAKE 'HID-compliant mouse (002)'
@@ -405,7 +406,7 @@ powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (001)'
 powercfg /DEVICEDISABLEWAKE 'USB4 Root Router (1.0)'
 powercfg /DEVICEDISABLEWAKE 'HID Keyboard Device (002)'
 
-
+powercfg -waketimers
 powercfg /devicequery wake_armed
 
 
@@ -522,9 +523,20 @@ add taskbar shortcut to
 \\tbp-nuc
 \\roxanas-mbp
 
-New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel\Patrunjel\Patrunjel" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
-New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
+# New-PSDrive -Persist -Scope Global -Verbose -Name "P" -Root "\\tbp-nuc\patrunjel\Patrunjel\Patrunjel" -PSProvider "FileSystem"
+# New-PSDrive -Persist -Scope Global -Verbose -Name "T" -Root "\\tbp-nuc\torrentz" -PSProvider "FileSystem"
+# New-PSDrive -Persist -Scope Global -Verbose -Name "W" -Root "\\tbp-nuc\tbp" -PSProvider "FileSystem"
+# New-PSDrive -Persist -Scope Global -Verbose -Name "Z" -Root "\\roxanas-mbp\pokambrian" -PSProvider "FileSystem"
+
+# this is an alternative of the above command
+
+New-SmbMapping -Persistent $true -LocalPath 'P:' -RemotePath '\\tbp-nuc\patrunjel\Patrunjel\Patrunjel'
+New-SmbMapping -Persistent $true -LocalPath 'T:' -RemotePath '\\tbp-nuc\torrentz'
+New-SmbMapping -Persistent $true -LocalPath 'W:' -RemotePath '\\tbp-nuc\tbp'
+New-SmbMapping -Persistent $true -LocalPath 'Z:' -RemotePath '\\roxanas-mbp\pokambrian'
+
+Get-SmbMapping
+
+
 
 # disable wake for wifi network (via ncpa.cpl)
