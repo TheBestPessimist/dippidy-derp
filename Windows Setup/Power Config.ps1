@@ -35,32 +35,6 @@ reg add HKLM\System\CurrentControlSet\Control\Power /v PlatformAoAcOverride /t R
 
 
 
-# Turn off automatic display dimming on battery saver
-# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/brightness
-powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
-powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
-
-
-# Disable hybrid sleep
-# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-hybrid-sleep
-powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
-powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
-
-# Disable unattended sleep
-powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
-powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
-
-# Disable Away mode
-# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-allow-away-mode
-powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
-powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
-
-
-
-
-
-
-
 # Enable adaptive display idle timeout (adaptive time for the idle timeout above)
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/display-settings-adaptive-display-idle-timeout
 powercfg -setdcvalueindex SCHEME_ALL SUB_VIDEO VIDEOADAPT 1

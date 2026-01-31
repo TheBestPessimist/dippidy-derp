@@ -10,11 +10,12 @@ winget install Docker.DockerDesktop
 winget install 7zip.7zip # TODO: backup and restore the registry properties under HKEY_CURRENT_USER\Software\7-Zip
 winget install mediainfo-cli
 winget install File-New-Project.EarTrumpet
-# Uninstall widgets
-winget uninstall "Windows web experience Pack"
 winget install fend
 winget install yt-dlp.FFmpeg.Shared 
 winget install k9s
+# Uninstall widgets
+winget uninstall "Windows web experience Pack"
+winget uninstall teams
 
 #-----------------
 # Make git save credentials
@@ -317,7 +318,7 @@ Get-AppxPackage Microsoft.OneConnect | Remove-AppxPackage
 Get-AppxPackage Microsoft.SkypeApp | Remove-AppxPackage
 Get-AppxPackage Microsoft.WindowsMaps | Remove-AppxPackage
 Get-AppxPackage king.com.CandyCrushSaga | Remove-AppxPackage
-
+Get-AppxPackage *copi* | Remove-AppxPackage
 
 #-----------------
 # Power config
@@ -378,6 +379,27 @@ powercfg -setacvalueindex SCHEME_ALL SUB_VIDEO ADAPTBRIGHT 0
 # https://www.elevenforum.com/t/turn-on-or-off-adaptive-brightness-in-windows-11.2618/
 powercfg -setacvalueindex SCHEME_ALL 7516b95f-f776-4464-8c53-06167f40cc99 FBD9AA66-9553-4097-BA44-ED6E9D65EAB8 0
 powercfg -setdcvalueindex SCHEME_ALL 7516b95f-f776-4464-8c53-06167f40cc99 FBD9AA66-9553-4097-BA44-ED6E9D65EAB8 0
+
+# Turn off automatic display dimming on battery saver
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/brightness
+powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
+powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBRIGHTNESS 100
+
+# Disable hybrid sleep
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-hybrid-sleep
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP HYBRIDSLEEP 0
+
+# Disable unattended sleep
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP UNATTENDSLEEP 0
+
+# Disable Away mode
+# https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/sleep-settings-allow-away-mode
+powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
+powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP AWAYMODE 0
+
+
 
 
 
@@ -449,6 +471,7 @@ $newPath = @(
     [Environment]::GetEnvironmentVariable("Path", "User")
     "D:\all\all\File Pilot"
     "D:\all\all\Python\live"
+    "D:\all\all\Python\live\Scripts"
 ) -join ";"
 $newPath
 
@@ -533,7 +556,7 @@ add taskbar shortcut to
 New-SmbMapping -Persistent $true -LocalPath 'P:' -RemotePath '\\tbp-nuc\patrunjel\Patrunjel\Patrunjel'
 New-SmbMapping -Persistent $true -LocalPath 'T:' -RemotePath '\\tbp-nuc\torrentz'
 New-SmbMapping -Persistent $true -LocalPath 'W:' -RemotePath '\\tbp-nuc\tbp'
-New-SmbMapping -Persistent $true -LocalPath 'Z:' -RemotePath '\\roxanas-mbp\pokambrian'
+# New-SmbMapping -Persistent $true -LocalPath 'Z:' -RemotePath '\\roxanas-mbp\pokambrian'
 
 Get-SmbMapping
 

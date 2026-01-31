@@ -31,7 +31,8 @@ $appsToRemove = @(
 "Microsoft.XboxGamingOverlay",
 "Microsoft.XboxIdentityProvider",
 "Microsoft.XboxSpeechToTextOverlay",
-"Microsoft.WindowsPhone"
+"Microsoft.WindowsPhone",
+"Microsoft.Copilot"
 )
 Get-AppxProvisionedPackage -Online | where-object { $_.DisplayName -in $appsToRemove } | Remove-AppxProvisionedPackage -Online
 
@@ -45,6 +46,7 @@ $appsToRemove = @(
 "Microsoft.XboxGamingOverlay",
 "Microsoft.XboxIdentityProvider",
 "Microsoft.XboxSpeechToTextOverlay",
+"Microsoft.Copilot"
 )
 foreach ($app in $appsToRemove)
 {
