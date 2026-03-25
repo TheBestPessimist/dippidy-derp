@@ -28,7 +28,6 @@ Remove-Item "ahk" -Recurse -Force
 Remove-Item ahk/AutoHotkey32.exe
 Remove-Item ahk/license.txt
 
-
 # Kill ahk if running
 Get-Process -Name "AutoHotkey64" -ErrorAction SilentlyContinue | Stop-Process -Force
 
