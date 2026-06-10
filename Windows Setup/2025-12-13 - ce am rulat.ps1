@@ -21,8 +21,9 @@ winget uninstall teams
 # Make git save credentials
 git config --global --unset credential.helper
 git config --global credential.helper manager
-git config --global core.autocrlf false # THIS IS WHAT YOU WANT!!!
-
+# THIS IS WHAT YOU WANT!!! (but please use the fucking .gitattributes)
+git config --global core.autocrlf false 
+git config --global core.eol lf
 
 
 #-----------------
