@@ -332,9 +332,10 @@ powercfg /hibernate on
 powercfg -setdcvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
 powercfg -setacvalueindex SCHEME_ALL SUB_SLEEP STANDBYIDLE 0
 
+# 2026-07-06 I disabled this, because my Asus laptop no longer boosts at all on battery saver.
 # Enable battery saver as soon as i unplug
 # https://learn.microsoft.com/en-us/windows-hardware/customize/power-settings/battery-threshold
-powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 100
+powercfg /setdcvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 0
 powercfg /setacvalueindex SCHEME_ALL SUB_ENERGYSAVER ESBATTTHRESHOLD 0
 
 # Do not allow any wake timers
